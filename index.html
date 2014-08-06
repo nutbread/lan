@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="description" content="A simple way to share files across a local area network" />
+	<meta name="keywords" content="lan,local area network,local area,share,file sharing,node,javascript" />
+	<meta name="author" content="nutbread" />
+	<title>Local Area Network File Sharing</title>
+	<link rel="shortcut icon" href="favicon.png" />
+	<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+
+<div class="header_bar">
+	<div class="main main_no_overflow header">
+
+		<table class="header_table"><tbody>
+			<tr>
+				<td class="header_table_cell">
+					<div class="header_table_name">
+						<a class="header_table_name_user link_external link_author light_underline" href="https://github.com/nutbread" target="_blank"><span>nutbread</span></a><span class="header_table_name_separator">/</span><a href="" class="header_table_name_title link_external link_title light_underline"><span>lan</span></a>
+					</div>
+				</td>
+				<td class="header_table_cell">
+					<div class="header_table_separator"></div>
+				</td>
+				<td class="header_table_cell header_table_cell_full">
+					<div class="header_table_description">
+						<div class="header_table_description_name">Local area network file sharing</div>
+						<div class="header_table_description_body">A simple way to share files across a local area network</div>
+					</div>
+				</td>
+				<td class="header_table_cell">
+					<a class="header_table_view_on_github link_external link_view_on_github light_nohover_color_hover" href="https://github.com/nutbread/lan" target="_blank">
+						<div class="header_table_view_on_github_line1">view on</div>
+						<div class="header_table_view_on_github_line2">github</div>
+					</a>
+				</td>
+			</tr>
+		</tbody></table>
+
+	</div>
+</div>
+<div class="main body">
+
+	<h1 id="about"><span class="hardlink_text">About<a class="hardlink" href="#about"></a></span></h1>
+	<p>
+		<code>lan.js</code> is simple a Javascript file which runs under node.js which runs a local server that's accessible through private network and loopback IPs. A directory is specified to the application, and it will serves the files in the directory over HTTP.
+	</p>
+	<p>
+		It's also useful for testing webpages which may be required to <em>not</em> be a <code>file:</code> URI to work.
+	</p>
+
+	<h4 id="required.software"><span class="hardlink_text">Required software<a class="hardlink" href="#required.software"></a></span></h4>
+	<p>
+		<ul>
+			<li><a class="link_external light_underline" href="http://nodejs.org/download/" target="_blank"><span>node.js</span></a> &ndash; runs the server application; get a binary executable for your operating system</li>
+		</ul>
+	</p>
+
+	<h4 id="downloads"><span class="hardlink_text">Downloads<a class="hardlink" href="#downloads"></a></span></h4>
+	<p>
+		<ul>
+			<li><a class="link_codebase_raw light_underline" href="https://raw.githubusercontent.com/nutbread/lan/master/builds/lan.zip" target="_blank"><span>Package</span></a> &ndash; zip file containing <code>node.exe</code>, <code>lan.js</code>, <code>run.bat</code>, and a <code>files</code> folder; prepackaged setup for Windows</li>
+			<li><a class="link_codebase_raw light_underline" href="https://raw.githubusercontent.com/nutbread/lan/master/src/lan.js" target="_blank"><span>lan.js</span></a> &ndash; the main server script which runs under node.js</li>
+			<li><a class="link_codebase_raw light_underline" href="https://raw.githubusercontent.com/nutbread/lan/master/src/run.bat" target="_blank"><span>run.bat</span></a> &ndash; a simple execution batch script which runs the server when double clicked</li>
+		</ul>
+	</p>
+
+	<h4 id="usage"><span class="hardlink_text">Usage<a class="hardlink" href="#usage"></a></span></h4>
+	<p>
+		If you're using Windows, select the &ldquo;Package&rdquo; download above and unzip it to a folder. You can place files inside the included &ldquo;files&rdquo; folder and they will be easily served.<br />
+		<strong>To start the server</strong>: double-click <code>run.bat</code><br />
+		<strong>To close</strong>: close the command window, or <code>CTRL+C</code> inside of it if you like
+	</p>
+	<p>
+		To access the server while it is running, go to one of the following urls: <span class="light">assuming the server is using port 80</span>
+	</p>
+	<p>
+		<ul>
+			<li><a class="link_external link_loopback light_underline"><span>http://192.168.1.?/</span></a> &ndash; an IPv4 local network address sometimes looks like this</li>
+			<li><a class="link_external link_loopback light_underline"><span>http://[fe80::????]/</span></a> &ndash; an IPv6 local network address sometimes looks like this</li>
+			<li><a class="link_external link_loopback light_underline" href="http://localhost/" target="_blank" rel="noreferrer nofollow"><span>http://localhost/</span></a> &ndash; the generic loopback address <span class="light">(same-computer access only)</span></li>
+			<li><a class="link_external link_loopback light_underline" href="http://127.0.0.1/" target="_blank" rel="noreferrer nofollow"><span>http://127.0.0.1/</span></a> &ndash; using the IPv4 loopback <span class="light">(same-computer access only)</span></li>
+			<li><a class="link_external link_loopback light_underline" href="http://[::1]/" target="_blank" rel="noreferrer nofollow"><span>http://[::1]/</span></a> &ndash; using the IPv6 loopback <span class="light">(same-computer access only)</span></li>
+		</ul>
+	</p>
+	<p>
+		Network addresses will be listed on <code>lan.js</code> startup. Pick any address not labeled &ldquo;external&rdquo; to use for connecting.
+	</p>
+	<p>
+		If you're using another operating system, reading the contents of <code>run.bat</code> and porting it to a different shell language should be fairly simple.
+	</p>
+
+	<h4 id="config"><span class="hardlink_text">Config<a class="hardlink" href="#config"></a></span></h4>
+	<p>
+		The following are the basic editable settings that appear in <code>run.bat</code>. They can be changed if desired or required.
+	</p>
+	<p>
+		<ul>
+			<li>
+				<strong>NODE</strong><br />
+				Typically it will just point to &ldquo;<code>node.exe</code>&rdquo;; if you have node.js installed somewhere else, it may require changing
+			</li>
+			<li>
+				<strong>PORT</strong><br />
+				The port to run the server on. Default is 80, and the valid range is [0,65535] inclusive.<br />
+				<span class="light">If an application already is using the specified port, you may get an error such as <code>EADDRINUSE</code>.<br />
+				For example, a setting in Skype can cause this to occur (&ldquo;Options&rdquo; -&gt; &ldquo;Advanced&rdquo; -&gt; &ldquo;Connections&rdquo; -&gt; &ldquo;Use port 80 and ...&rdquo;)</span>
+			</li>
+			<li>
+				<strong>SHARE_PATH</strong><br />
+				The path to the directory which should be served. If the directory is shallower than the directory the <code>lan.js</code> script appears in, an error is issued. To ignore this error, the <code>--allow-parent-directories</code> flag must appear on the command line.
+			</li>
+		</ul>
+	</p>
+
+</div>
+
+
+</body>
+</html>
+
