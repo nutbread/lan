@@ -36,7 +36,6 @@ Icon
 .Trashes
 
 # Other
-7z.exe
-node.exe
+*.exe
 *.log
 *.lnk

@@ -15,7 +15,7 @@ mkdir "%TEMP_DIR%" > NUL 2> NUL
 copy ..\src\template.html "%TEMP_DIR%"\index.html > NUL 2> NUL
 
 :: Compress
-7z.exe a -tzip -mx=9 -mtc=off "%OUTPUT_FILE%" "..\src\node.exe" "..\src\lan.js" "..\src\run.bat" ".\files\"
+7z.exe a -tzip -mx=9 -mtc=off "%OUTPUT_FILE%" "..\src\node.*.exe" "..\src\lan.js" "..\src\run.bat" ".\files\"
 
 :: Clean
 rmdir /S /Q "%TEMP_DIR%" > NUL 2> NUL

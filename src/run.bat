@@ -14,8 +14,9 @@ cls
 :: Editable settings
 :: ============================================================================
 
-:: Path to the node.exe used for execution
-set NODE=node.exe
+:: Path to the node executables; one can be left empty if it won't be used
+set NODE_X86=node.x86.exe
+set NODE_X64=node.x64.exe
 
 :: The port the server should run on
 set PORT=80
@@ -40,10 +41,21 @@ for %%A in ("%BATCH_FULL_FILENAME%") do (
 )
 
 :: ============================================================================
-:: Check for python
+:: Check for node
 :: ============================================================================
 
-"%NODE%" --version > NUL 2> NUL || goto :error_no_node
+if "%NODE_X64%"=="" goto :use_x86
+"%NODE_X64%" --version > NUL 2> NUL || goto :use_x86
+set NODE=%NODE_X64%
+goto :node_check_done
+
+:use_x86
+"%NODE_X86%" --version > NUL 2> NUL || goto :error_no_node
+set NODE=%NODE_X86%
+goto :node_check_done
+
+:node_check_done
+
 
 :: ============================================================================
 :: Build execution
