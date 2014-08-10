@@ -62,7 +62,7 @@
 	<h4 id="downloads"><span class="hardlink_text">Downloads<a class="hardlink" href="#downloads"></a></span></h4>
 	<p>
 		<ul>
-			<li><a class="link_codebase_raw light_underline" href="https://raw.githubusercontent.com/nutbread/lan/master/builds/lan.zip" target="_blank"><span>Package</span></a> &ndash; zip file containing <code>node.exe</code>, <code>lan.js</code>, <code>run.bat</code>, and a <code>files</code> folder; prepackaged setup for Windows</li>
+			<li><a class="link_codebase_raw light_underline" href="https://raw.githubusercontent.com/nutbread/lan/master/builds/lan.zip" target="_blank"><span>Package</span></a> &ndash; zip file containing <code>node.exe</code> executables, <code>lan.js</code>, <code>run.bat</code>, and a <code>files</code> folder</li>
 			<li><a class="link_codebase_raw light_underline" href="https://raw.githubusercontent.com/nutbread/lan/master/src/lan.js" target="_blank"><span>lan.js</span></a> &ndash; the main server script which runs under node.js</li>
 			<li><a class="link_codebase_raw light_underline" href="https://raw.githubusercontent.com/nutbread/lan/master/src/run.bat" target="_blank"><span>run.bat</span></a> &ndash; a simple execution batch script which runs the server when double clicked</li>
 		</ul>
@@ -70,7 +70,9 @@
 
 	<h4 id="usage"><span class="hardlink_text">Usage<a class="hardlink" href="#usage"></a></span></h4>
 	<p>
-		If you're using Windows, select the &ldquo;Package&rdquo; download above and unzip it to a folder. You can place files inside the included &ldquo;files&rdquo; folder and they will be easily served.<br />
+		If you're using Windows, select the &ldquo;Package&rdquo; download above and unzip it to a folder. You can place files inside the included &ldquo;files&rdquo; folder and they will be easily served.
+	</p>
+	<p>
 		<strong>To start the server</strong>: double-click <code>run.bat</code><br />
 		<strong>To close</strong>: close the command window, or <code>CTRL+C</code> inside of it if you like
 	</p>
@@ -100,8 +102,9 @@
 	<p>
 		<ul>
 			<li>
-				<strong>NODE</strong><br />
-				Typically it will just point to &ldquo;<code>node.exe</code>&rdquo;; if you have node.js installed somewhere else, it may require changing
+				<strong>NODE_X86</strong> / <strong>NODE_X64</strong><br />
+				Typically one these will just point to &ldquo;<code>node.exe</code>&rdquo;; if you have an x86 and an x64 version of node.js installed, the batch script will choose the most appropriate version for your operating system: x64 for a 64-bit system, and fallback to x86 for a 32-bit system.<br />
+				<span class="light">You can leave one empty and nothing should break.</span>
 			</li>
 			<li>
 				<strong>PORT</strong><br />
