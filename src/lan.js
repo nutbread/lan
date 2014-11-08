@@ -11,7 +11,7 @@
 		url = require("url"),
 		http = require("http"),
 		path = require("path"),
-		version_info = [ 1 , 0 ];
+		version_info = [ 1 , 0 , 1 ];
 
 
 
@@ -704,7 +704,7 @@
 				}
 				else if (stats.isFile()) {
 					// Does exist
-					on_request_showfile.call(this, req, res, url_normalized, filename_absolute, log_msg, filename_absolute);
+					on_request_showfile.call(this, req, res, url_normalized, filename_absolute, log_msg, filename_absolute, stats);
 					return;
 				}
 			}
@@ -804,13 +804,14 @@ a:hover{color:#c00000;}\
 			// Else, error
 			on_request_404.call(this, req, res, url_normalized, filename_absolute, log_msg);
 		};
-		var on_request_showfile = function (req, res, url_normalized, filename_absolute, log_msg, filename_serve) {
+		var on_request_showfile = function (req, res, url_normalized, filename_absolute, log_msg, filename_serve, file_stats) {
 			// Does exist
 			var ext = path.extname(filename_serve).toLowerCase(),
 				mime_type = (ext in this.mime_types) ? this.mime_types[ext] : this.mime_type_default,
 				status = 200,
 				headers = default_headers.call(this, {
 					"Content-Type": mime_type,
+					"Content-Length": file_stats.size,
 				}),
 				file_stream;
 
