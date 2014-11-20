@@ -11,7 +11,7 @@
 		url = require("url"),
 		http = require("http"),
 		path = require("path"),
-		version_info = [ 1 , 0 , 1 ];
+		version_info = [ 1 , 0 , 2 ];
 
 
 
@@ -720,7 +720,7 @@
 					for (j = 0; j < files.length; ++j) {
 						if (this.index_filenames[i] == files[j]) {
 							// Show an index file instead
-							on_request_showfile.call(this, req, res, url_normalized, filename_absolute, log_msg, path.join(filename_absolute, files[j]));
+							on_request_showfile.call(this, req, res, url_normalized, filename_absolute, log_msg, path.join(filename_absolute, files[j]), null);
 							return;
 						}
 					}
@@ -811,9 +811,12 @@ a:hover{color:#c00000;}\
 				status = 200,
 				headers = default_headers.call(this, {
 					"Content-Type": mime_type,
-					"Content-Length": file_stats.size,
 				}),
 				file_stream;
+
+			if (file_stats) {
+				headers["Content-Length"] = file_stats.size;
+			}
 
 			update_log_msg_with_response.call(this, log_msg, status, headers);
 			this.log_event(log_msg.join("\n") + "\n");
