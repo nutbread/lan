@@ -11,7 +11,7 @@
 		url = require("url"),
 		http = require("http"),
 		path = require("path"),
-		version_info = [ 1 , 0 , 2 ];
+		version_info = [ 1 , 0 , 3 ];
 
 
 
@@ -693,11 +693,35 @@
 
 			// Exists
 			var request_filename_absolute = path.join(this.base_file_directory, request_filename);
-			fs.lstat(request_filename_absolute, on_request_file_lstat.bind(this, req, res, request_url_normalized, request_filename_absolute, log_msg));
+			fs.lstat(request_filename_absolute, on_request_file_lstat.bind(this, req, res, request_url, request_url_normalized, request_filename_absolute, log_msg));
 		};
-		var on_request_file_lstat = function (req, res, url_normalized, filename_absolute, log_msg, error, stats) {
+		var on_request_file_lstat = function (req, res, url_original, url_normalized, filename_absolute, log_msg, error, stats) {
 			if (error === null) {
-				if (stats.isDirectory()) {
+				// 301 moved
+				var u_p = url.parse(url_original, true),
+					s1, s2;
+
+				s1 = decodeURIComponent(u_p.pathname);
+				s2 = path.normalize(s1);
+				if (s1 != s2 && (s1 = s2.replace(re_no_dots, "")) != s2) {
+					console.log("FIX URL");
+				}
+				console.log("s1="+s1);
+				console.log("s2="+s2);
+					
+				var url_fixed = "/" +path.normalize(decodeURIComponent(u_p.pathname)).replace(re_no_dots, "");
+				if (stats.isDirectory() && url_fixed.length > 1) url_fixed += "/";
+				url_fixed += u_p.search;
+
+				console.log("url_fixed="+url_fixed);
+				console.log("url_original="+url_original);
+
+				if (url_fixed != url_original) {
+					// Fix URL
+					on_request_301.call(this, req, res, url_fixed, log_msg);
+					return;
+				}
+				else if (stats.isDirectory()) {
 					// Display directory
 					fs.readdir(filename_absolute, on_request_readdir.bind(this, req, res, url_normalized, filename_absolute, log_msg));
 					return;
@@ -831,6 +855,21 @@ a:hover{color:#c00000;}\
 			// Not found
 			var status = 404,
 				headers = default_headers.call(this, {
+					"Content-Type": this.mime_type_error,
+					"Content-Security-Policy": "default-src *; script-src 'none'; frame-src 'none'; object-src 'none'",
+				});
+
+			update_log_msg_with_response.call(this, log_msg, status, headers);
+			this.log_event(log_msg.join("\n") + "\n");
+
+			res.writeHead(status, headers);
+			res.end("");
+		};
+		var on_request_301 = function (req, res, url_fixed, log_msg) {
+			// Not found
+			var status = 301,
+				headers = default_headers.call(this, {
+					"Location": url_fixed,
 					"Content-Type": this.mime_type_error,
 					"Content-Security-Policy": "default-src *; script-src 'none'; frame-src 'none'; object-src 'none'",
 				});
@@ -1024,7 +1063,7 @@ a:hover{color:#c00000;}\
 	var usage = function (arguments_descriptor, stream) {
 		var usage_info = [
 			"Usage:",
-			"    " + path.basename(process.execPath) + " directory [port] <flags>",
+			"    " + path.basename(process.execPath) + " " + path.basename(process.argv[1]) + " directory [port] <flags>",
 			"\n",
 			"Available flags:",
 		];
