@@ -11,7 +11,7 @@
 		url = require("url"),
 		http = require("http"),
 		path = require("path"),
-		version_info = [ 1 , 0 , 3 ];
+		version_info = [ 1 , 0 , 3 , 1 ];
 
 
 
@@ -699,22 +699,11 @@
 			if (error === null) {
 				// 301 moved
 				var u_p = url.parse(url_original, true),
-					s1, s2;
+					url_fixed;
 
-				s1 = decodeURIComponent(u_p.pathname);
-				s2 = path.normalize(s1);
-				if (s1 != s2 && (s1 = s2.replace(re_no_dots, "")) != s2) {
-					console.log("FIX URL");
-				}
-				console.log("s1="+s1);
-				console.log("s2="+s2);
-					
-				var url_fixed = "/" +path.normalize(decodeURIComponent(u_p.pathname)).replace(re_no_dots, "");
+				url_fixed = "/" + path.normalize(decodeURIComponent(u_p.pathname)).replace(re_no_dots, "").replace(/\\/g, "/");
 				if (stats.isDirectory() && url_fixed.length > 1) url_fixed += "/";
 				url_fixed += u_p.search;
-
-				console.log("url_fixed="+url_fixed);
-				console.log("url_original="+url_original);
 
 				if (url_fixed != url_original) {
 					// Fix URL
